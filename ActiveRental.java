@@ -1,29 +1,26 @@
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActiveRental {
-    private String bikeID;
-    private String userEmail;
-    private LocalDateTime tripStartTime;
+    private List<RentalRecord> rentalRecords = new ArrayList<>();
 
-    public ActiveRental(String bikeID, String userEmail, LocalDateTime tripStartTime) {
-        this.bikeID = bikeID;
-        this.userEmail = userEmail;
-        this.tripStartTime = tripStartTime;
+    public static class RentalRecord {
+        private Bike bike;
+        private RegisteredUsers.User user;
+
+        public RentalRecord(Bike bike, RegisteredUsers.User user) {
+            this.bike = bike;
+            this.user = user;
+        }
     }
 
-    public String getBikeID() { return bikeID; }
-    public void setBikeID(String bikeID) { this.bikeID = bikeID; }
-    public String getUserEmail() { return userEmail; }
-    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
-    public LocalDateTime getTripStartTime() { return tripStartTime; }
-    public void setTripStartTime(LocalDateTime tripStartTime) { this.tripStartTime = tripStartTime; }
-
-    @Override
-    public String toString() {
-        return "ActiveRental{" +
-                "bikeID='" + bikeID + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", tripStartTime=" + tripStartTime +
-                '}';
+    public void addRental(Bike bike, RegisteredUsers.User user) {
+        rentalRecords.add(new RentalRecord(bike, user));
     }
+
+    public void removeRental(Bike bike) {
+        rentalRecords.removeIf(record -> record.bike.getBikeId().equals(bike.getBikeId()));
+    }
+
+    public List<RentalRecord> getRentalRecords() { return rentalRecords; }
 }
